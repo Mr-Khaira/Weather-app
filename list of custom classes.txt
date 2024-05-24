@@ -1,0 +1,6 @@
+Each custom class is added here:-
+
+addingUnderline, navUnitsDiv, myAnchorAndDropD, userLocationWeather, dropdownLi.
+
+IDs:-
+searchBar, searchBarInput, theWeatherCards.
