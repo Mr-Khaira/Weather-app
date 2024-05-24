@@ -195,11 +195,17 @@ async function displayWeather(listOfCities) {
 
 async function getFlag(countryCode) {
   // Example of an asynchronous function to fetch flag based on countryCode
-  const response = await fetch(
-    `https://restcountries.com/v3.1/alpha/${countryCode}`
-  );
-  const data = await response.json();
-  return data.flags.svg;
+
+  const theFlags = countryCode.map(async (ele) => {
+    const resp = await fetch(`https://restcountries.com/v3.1/alpha/${ele}`);
+    const data = await resp.json();
+    console.log(data);
+    console.log(data[0].coatOfArms.svg);
+    return data.coatOfArms.svg;
+  });
+  let flags = await Promise.all(theFlags);
+  console.log(flags);
+  return flags;
 }
 
 function createLogoAndValue(value, iconPath) {
