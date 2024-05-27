@@ -9,7 +9,13 @@ main {
   height: 100%;
 }
 #allTheLocationsDisplayed {
-  height: 100%;
+  row-gap: 20px;
+}
+
+#allTheLocationsDisplayed div {
+  font-size: larger;
+  border-radius: 15px;
+  padding: 1.5rem;
 }
 
 .addingUnderline {
@@ -38,25 +44,6 @@ main {
   color: white;
 }
 
-#theWeatherCards {
-  height: 100%;
-  background: rgb(11, 49, 66);
-  background: linear-gradient(
-    34deg,
-    rgba(11, 49, 66, 1) 32%,
-    rgba(74, 99, 166, 1) 75%
-  );
-}
-
-.userLocationWeather {
-  background: rgb(156, 163, 219);
-  background: linear-gradient(
-    150deg,
-    rgba(156, 163, 219, 1) 24%,
-    rgba(98, 120, 176, 1) 51%
-  );
-}
-
 .navBg {
   background: rgb(74, 75, 221);
   background: linear-gradient(
@@ -76,6 +63,7 @@ main {
 }
 
 #allTheLocationsDisplayed {
+  padding: 2rem;
   background: rgb(74, 75, 221);
   background: linear-gradient(
     90deg,
@@ -91,11 +79,21 @@ input#searchBarInput {
   background-size: contain;
   color: transparent;
   text-indent: 20px;
+  transition: color 0.3s ease, background-image 0.3s ease;
 }
 #searchBarInput:focus {
   outline: none;
   color: white; /* Show the text when input is focused */
   background-image: none;
+}
+
+#searchBarInput:not(:focus):placeholder-shown {
+  color: transparent; /* Keep the text color transparent when input is not focused and empty */
+  background-image: url(/assets-icons/search-svgrepo-com1.svg); /* Show the background image when input is empty */
+}
+
+#searchBarInput:not(:focus):not(:placeholder-shown) {
+  color: white; /* Show the text when input is not focused and has content */
 }
 
 /* The hamburger button appears upon going under 1000px, and I wanted a gap b/w the units buttons when this query is true and remember these were set to be flex-row.*/
