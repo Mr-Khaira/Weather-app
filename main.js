@@ -198,8 +198,4 @@ async function displayWeather(listOfCities) {
   });
 }
 
-// Use the prevoius lec's pagination. Data table
-
-// Geolocation library
-
-// Do The coutry logo thing and then display the logo.
+// Add unit functionality
