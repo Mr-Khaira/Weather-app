@@ -18,21 +18,28 @@ export async function WeatherReportOfCities(cityList, unit) {
   const weatherReportList = await Promise.all(theList);
   return weatherReportList;
 }
-
-export async function getFlag(countryCode) {
+export async function getFlag(countryCodes) {
   // Example of an asynchronous function to fetch flag based on countryCode
   try {
-    const theFlags = countryCode.map(async (code) => {
-      console.log(code);
-      const resp = await fetch(`https://restcountries.com/v3.1/alpha/${code}`);
-      const data = await resp.json();
-
-      console.log(data);
-      return { code, flagUrl: data[0].flags.svg };
+    const theFlags = countryCodes.map(async (code) => {
+      try {
+        const resp = await fetch(
+          `https://restcountries.com/v3.1/alpha/${code}`
+        );
+        if (!resp.ok) {
+          throw new Error(`HTTP error! status: ${resp.status}`);
+        }
+        const data = await resp.json();
+        return { code, flagUrl: data[0].flags.svg };
+      } catch (error) {
+        console.log(`Failed to fetch flag for ${code}: ${error.message}`);
+        return { code, flagUrl: "" }; // Return an empty flagUrl if fetch fails
+      }
     });
-    let flags = await Promise.all(theFlags);
+    const flags = await Promise.all(theFlags);
     return flags;
   } catch (error) {
-    console.log(error.message);
+    console.log(`General error: ${error.message}`);
+    return countryCodes.map((code) => ({ code, flagUrl: "" }));
   }
 }

@@ -1,11 +1,18 @@
 "use strict";
 
-import { searchError, logoAndValue, countriesLogos } from "./utilities.js";
+import {
+  searchError,
+  logoAndValue,
+  countriesLogos,
+  searchErrorRemove,
+} from "./utilities.js";
 import { WeatherReportOfCities, getFlag } from "./allFetchFunctions.js";
 
 const allTheLocationsDisplayed = document.getElementById(
   "allTheLocationsDisplayed"
 );
+
+let currentTempUnit = "metric";
 
 document.addEventListener("DOMContentLoaded", function () {
   const searchBar = document.getElementById("searchBar");
@@ -28,34 +35,60 @@ document.addEventListener("DOMContentLoaded", function () {
       let weatherObj = await weather(city, country, currentTempUnit);
       if (weatherObj === 0) {
         searchError();
+      } else {
+        searchErrorRemove();
       }
     } else {
       const city = query.trim();
       let weatherObj = await weather(city, "", currentTempUnit);
       if (weatherObj === 0) {
         searchError();
+      } else {
+        searchErrorRemove();
       }
     }
   });
 
   //The temp unit selection :-
-  let currentTempUnit = undefined;
 
-  const tempInK = this.getElementById("tempUnitK");
+  const tempInK = document.getElementById("tempUnitK");
   tempInK.addEventListener("click", () => {
     currentTempUnit = "standard";
+    UpdateDisplay(currentTempUnit);
   });
 
-  const tempInC = this.getElementById("tempUnitC");
+  const tempInC = document.getElementById("tempUnitC");
   tempInC.addEventListener("click", () => {
     currentTempUnit = "metric";
+    UpdateDisplay(currentTempUnit);
   });
 
-  const tempInF = this.getElementById("tempUnitF");
+  const tempInF = document.getElementById("tempUnitF");
   tempInF.addEventListener("click", () => {
     currentTempUnit = "emperial";
+    UpdateDisplay(currentTempUnit);
   });
 });
+
+async function UpdateDisplay(currUnit) {
+  console.log("Current temp", currUnit);
+  const searchBarInput = document.getElementById("searchBarInput");
+  let query = searchBarInput.value;
+  query = query.toLowerCase();
+
+  const commaExist = query.search(","); // -1 if not existing.
+  const commaAt = query.indexOf(",");
+
+  // The search returns -1 if the string to be searched is not found.
+  if (commaExist !== -1) {
+    const city = query.slice(0, commaAt).trim();
+    const country = query.slice(commaAt + 1).trim(); // Index inclusive therfore + 1.
+    await weather(city, country, currUnit);
+  } else {
+    const city = query.trim();
+    await weather(city, "", currUnit);
+  }
+}
 
 async function weather(city, country = "", unit = "metric") {
   // appid=e48dd7e2b32f4f907d573e78970b1e8e
@@ -82,7 +115,9 @@ async function weather(city, country = "", unit = "metric") {
     }
 
     const weatherReportList = await WeatherReportOfCities(cityList, unit);
+
     displayWeather(weatherReportList);
+
     // We have got the weather info of all the cities in weatherReportList variable.
     // Next step is to exteact the values to be displayed.
   } catch (error) {
@@ -92,6 +127,9 @@ async function weather(city, country = "", unit = "metric") {
 }
 
 async function displayWeather(listOfCities) {
+  // Clearing previous data.
+  allTheLocationsDisplayed.innerHTML = "";
+
   const newDiv = document.createElement("div");
 
   let requiredlogos = countriesLogos(listOfCities);
@@ -198,4 +236,4 @@ async function displayWeather(listOfCities) {
   });
 }
 
-// Add unit functionality
+// Fix temp issue maybe, and add pagination.

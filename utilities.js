@@ -1,10 +1,14 @@
 export function searchError() {
   const brTag = document.createElement("br");
   searchBar.appendChild(brTag);
-  const errorSpan = document.createElement("span");
+  const errorSpan = document.getElementById("errorSpan");
   errorSpan.style.color = "#FFFFFF";
   errorSpan.textContent = "No such Place exists ";
-  searchBar.appendChild(errorSpan);
+}
+
+export function searchErrorRemove() {
+  const errorSpan = document.getElementById("errorSpan");
+  errorSpan.textContent = "";
 }
 
 export function createLogoAndValue(value, iconPath) {
