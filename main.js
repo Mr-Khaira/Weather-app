@@ -1,18 +1,16 @@
 "use strict";
 
-import {
-  searchError,
-  logoAndValue,
-  countriesLogos,
-  searchErrorRemove,
-} from "./utilities.js";
-import { WeatherReportOfCities, getFlag } from "./allFetchFunctions.js";
+import { searchError, searchErrorRemove } from "./utilities.js";
+import { WeatherReportOfCities, userLocation } from "./allFetchFunctions.js";
+import { displayWeatherAllLocations } from "./mainDisplayFunction.js";
 
 const allTheLocationsDisplayed = document.getElementById(
   "allTheLocationsDisplayed"
 );
 
 let currentTempUnit = "metric";
+
+userLocation(currentTempUnit);
 
 document.addEventListener("DOMContentLoaded", function () {
   const searchBar = document.getElementById("searchBar");
@@ -55,23 +53,26 @@ document.addEventListener("DOMContentLoaded", function () {
   tempInK.addEventListener("click", () => {
     currentTempUnit = "standard";
     UpdateDisplay(currentTempUnit);
+    userLocation(currentTempUnit);
   });
 
   const tempInC = document.getElementById("tempUnitC");
   tempInC.addEventListener("click", () => {
     currentTempUnit = "metric";
     UpdateDisplay(currentTempUnit);
+    userLocation(currentTempUnit);
   });
 
   const tempInF = document.getElementById("tempUnitF");
   tempInF.addEventListener("click", () => {
-    currentTempUnit = "emperial";
+    currentTempUnit = "imperial";
     UpdateDisplay(currentTempUnit);
+    userLocation(currentTempUnit);
   });
 });
 
 async function UpdateDisplay(currUnit) {
-  console.log("Current temp", currUnit);
+  // console.log("Current temp", currUnit);
   const searchBarInput = document.getElementById("searchBarInput");
   let query = searchBarInput.value;
   query = query.toLowerCase();
@@ -83,15 +84,16 @@ async function UpdateDisplay(currUnit) {
   if (commaExist !== -1) {
     const city = query.slice(0, commaAt).trim();
     const country = query.slice(commaAt + 1).trim(); // Index inclusive therfore + 1.
-    await weather(city, country, currUnit);
+    const theList = await weather(city, country, currUnit);
   } else {
     const city = query.trim();
-    await weather(city, "", currUnit);
+    const theList = await weather(city, "", currUnit);
   }
 }
 
 async function weather(city, country = "", unit = "metric") {
   // appid=e48dd7e2b32f4f907d573e78970b1e8e
+  console.log("The unit", unit);
   try {
     const theLocationsList = await fetch(
       `http://api.openweathermap.org/geo/1.0/direct?q=${city},${country}&appid=e48dd7e2b32f4f907d573e78970b1e8e&limit=0&units=${unit}`
@@ -116,7 +118,7 @@ async function weather(city, country = "", unit = "metric") {
 
     const weatherReportList = await WeatherReportOfCities(cityList, unit);
 
-    displayWeather(weatherReportList);
+    await displayWeatherAllLocations(weatherReportList, true);
 
     // We have got the weather info of all the cities in weatherReportList variable.
     // Next step is to exteact the values to be displayed.
@@ -125,115 +127,3 @@ async function weather(city, country = "", unit = "metric") {
   }
   // cityList has the latitude and the longitude of all the cities in the world.
 }
-
-async function displayWeather(listOfCities) {
-  // Clearing previous data.
-  allTheLocationsDisplayed.innerHTML = "";
-
-  const newDiv = document.createElement("div");
-
-  let requiredlogos = countriesLogos(listOfCities);
-  const theFlags = await getFlag(requiredlogos);
-
-  listOfCities.forEach((element) => {
-    const newDiv = document.createElement("div");
-    newDiv.className = "containor-fluid";
-    newDiv.style.color = "white";
-    newDiv.style.backgroundColor = "#0086F4";
-    newDiv.style.display = "inline";
-
-    const cityFlag = theFlags.find((flag) => flag.code === element.sys.country);
-
-    //The top content of the containor
-    const flagSpan = document.createElement("span");
-    if (cityFlag) {
-      flagSpan.innerHTML = logoAndValue("", cityFlag.flagUrl);
-    }
-    newDiv.appendChild(flagSpan);
-
-    const city = document.createElement("span");
-    city.innerHTML = element.name + ", ";
-    newDiv.appendChild(city);
-
-    const country = document.createElement("span");
-    country.innerHTML = element.sys.country + ", ";
-    newDiv.appendChild(country);
-
-    const wDescription = document.createElement("span");
-    wDescription.innerHTML = element.weather[0].description;
-    newDiv.appendChild(wDescription);
-
-    const brTag = document.createElement("br");
-    newDiv.appendChild(brTag);
-
-    // The middle content of the containor
-
-    const currTemp = document.createElement("span");
-    currTemp.innerHTML = logoAndValue(
-      element.main.temp,
-      "assets-icons/thermometer-low-svgrepo-com.svg"
-    );
-    newDiv.appendChild(currTemp);
-
-    const maxTemp = document.createElement("span");
-    maxTemp.innerHTML = logoAndValue(
-      element.main.temp_max,
-      "assets-icons/thermometer-sun-svgrepo-com.svg"
-    );
-    newDiv.appendChild(maxTemp);
-
-    const minTemp = document.createElement("span");
-    minTemp.innerHTML = logoAndValue(
-      element.main.temp_min,
-      "assets-icons/thermometer-snow-svgrepo-com.svg"
-    );
-    newDiv.appendChild(minTemp);
-
-    const brTag2 = document.createElement("br");
-    newDiv.appendChild(brTag2);
-
-    // The bottom content of the containor
-
-    const windS = document.createElement("span");
-    windS.innerHTML = logoAndValue(
-      element.wind.speed,
-      "assets-icons/wind-svgrepo-com.svg"
-    );
-    newDiv.appendChild(windS);
-
-    const humidity = document.createElement("span");
-    humidity.innerHTML = logoAndValue(
-      element.main.humidity,
-      "assets-icons/humidity-svgrepo-com.svg"
-    );
-    newDiv.appendChild(humidity);
-
-    const pressure = document.createElement("span");
-    pressure.innerHTML = logoAndValue(
-      element.main.pressure,
-      "assets-icons/gauge-indicator-svgrepo-com.svg"
-    );
-    newDiv.appendChild(pressure);
-
-    const SRise = document.createElement("span");
-    SRise.innerHTML = logoAndValue(
-      element.sys.sunrise,
-      "assets-icons/sunrise-svgrepo-com.svg"
-    );
-    newDiv.appendChild(SRise);
-
-    const SSet = document.createElement("span");
-    SSet.innerHTML = logoAndValue(
-      element.sys.sunset,
-      "assets-icons/sunset-svgrepo-com.svg"
-    );
-    newDiv.appendChild(SSet);
-    const brTag3 = document.createElement("br");
-    newDiv.appendChild(brTag3);
-
-    allTheLocationsDisplayed.appendChild(newDiv);
-    // This ele is created at the top of the file.
-  });
-}
-
-// Fix temp issue maybe, and add pagination.

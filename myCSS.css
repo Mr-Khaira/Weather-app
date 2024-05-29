@@ -9,6 +9,7 @@ main {
   height: 100%;
 }
 #allTheLocationsDisplayed {
+  flex-grow: 1;
   row-gap: 20px;
 }
 
@@ -29,6 +30,7 @@ main {
 
 #UserWeatherAndSearchBar {
   height: 30vh;
+  flex-shrink: 0;
 }
 
 #dropdownLi {
@@ -39,9 +41,24 @@ main {
 #searchBarInput {
   border: none;
   border-right-width: 0;
-  border-radius: 0;
   background: rgba(55, 199, 228, 1) 100%;
   color: white;
+}
+
+#searchBarInput {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+#searchBtn {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+#userLocationWeather {
+  background: rgb(0, 134, 244);
+  width: 25rem;
+  border-radius: 3px;
 }
 
 .navBg {
@@ -70,6 +87,26 @@ main {
     rgba(74, 75, 221, 1) 36%,
     rgba(55, 199, 228, 1) 100%
   );
+}
+
+#pageNav {
+  background: rgb(74, 75, 221);
+  background: linear-gradient(
+    90deg,
+    rgba(74, 75, 221, 1) 36%,
+    rgba(55, 199, 228, 1) 100%
+  );
+  font-size: 2rem;
+  column-gap: 1rem;
+}
+
+#nextPage,
+#prevPage {
+  background-color: #0086f4;
+  border: none;
+  border-radius: 3px;
+  column-gap: 2rem;
+  color: white;
 }
 
 input#searchBarInput {
@@ -105,5 +142,6 @@ input#searchBarInput {
 
   #UserWeatherAndSearchBar {
     flex-direction: column;
+    flex-shrink: 0;
   }
 }

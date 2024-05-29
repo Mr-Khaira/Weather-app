@@ -18,7 +18,7 @@ export function createLogoAndValue(value, iconPath) {
 }
 
 export function logoAndValue(value, iconPath) {
-  return `<img src="${iconPath}" style =" height: 25px; width: 25px" alt="icon">${value} `;
+  return `<img src="${iconPath}" style =" height: 25px; width: 25px" alt="icon"> ${value} `;
 }
 
 export function countriesLogos(listOfCities) {
@@ -34,4 +34,30 @@ export function countriesLogos(listOfCities) {
   newList = removeDuplicates(newList);
   console.log(newList);
   return newList;
+}
+
+export function epochToLocalTime(epochTime) {
+  const baseTime = new Date(epochTime * 1000);
+  // converting secs to milis bec Date obj expets times in seconds.
+
+  const date = baseTime.getDate();
+  const month = baseTime.getMonth() + 1;
+  const year = baseTime.getFullYear();
+
+  let hour = baseTime.getHours();
+  let amPm = "AM";
+  if (hour >= 12) {
+    amPm = "PM";
+    hour = hour > 12 ? hour - 12 : hour;
+  } else {
+    hour = hour === 0 ? 12 : hour;
+  }
+
+  const min = baseTime.getMinutes();
+  // Print the result
+  return `${hour}:${min}${amPm} ${date}-${month}-${year}`;
+}
+
+export function addBr(element) {
+  return element.appendChild(document.createElement("br"));
 }
