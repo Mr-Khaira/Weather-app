@@ -12,9 +12,12 @@
  **/
 "use strict";
 
-import { searchError, searchErrorRemove } from "./utilities.js";
-import { WeatherReportOfCities, userLocation } from "./allFetchFunctions.js";
-import { displayWeatherAllLocations } from "./mainDisplayFunction.js";
+import { searchError, searchErrorRemove } from "./utilities/helperFunctions.js";
+import {
+  WeatherReportOfCities,
+  userLocation,
+} from "./utilities/allFetchFunctions.js";
+import { displayWeatherAllLocations } from "./utilities/mainDisplayFunction.js";
 
 const allTheLocationsDisplayed = document.getElementById(
   "allTheLocationsDisplayed"
