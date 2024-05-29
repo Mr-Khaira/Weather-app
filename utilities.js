@@ -1,3 +1,16 @@
+/******************************************************************************
+ ***
+ * WEB422 – Assignment 1
+ * I declare that this assignment is my own work in accordance with Seneca Academic Policy.
+ * No part of this assignment has been copied manually or electronically from any other source
+ * (including web sites) or distributed to other students.
+ *
+ * Name: Harkaran Singh Khaira Student ID: 170321210 Date: 28/05/2024
+ *
+ *
+ ******************************************************************************
+ **/
+
 export function searchError() {
   const brTag = document.createElement("br");
   searchBar.appendChild(brTag);
@@ -32,7 +45,6 @@ export function countriesLogos(listOfCities) {
     return newList.filter((item, index) => newList.indexOf(item) === index);
   }
   newList = removeDuplicates(newList);
-  console.log(newList);
   return newList;
 }
 

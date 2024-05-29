@@ -1,3 +1,15 @@
+/******************************************************************************
+ ***
+ * WEB422 – Assignment 1
+ * I declare that this assignment is my own work in accordance with Seneca Academic Policy.
+ * No part of this assignment has been copied manually or electronically from any other source
+ * (including web sites) or distributed to other students.
+ *
+ * Name: Harkaran Singh Khaira Student ID: 170321210 Date: 28/05/2024
+ *
+ *
+ ******************************************************************************
+ **/
 "use strict";
 
 import { searchError, searchErrorRemove } from "./utilities.js";
@@ -53,26 +65,25 @@ document.addEventListener("DOMContentLoaded", function () {
   tempInK.addEventListener("click", () => {
     currentTempUnit = "standard";
     UpdateDisplay(currentTempUnit);
-    userLocation(currentTempUnit);
   });
 
   const tempInC = document.getElementById("tempUnitC");
   tempInC.addEventListener("click", () => {
     currentTempUnit = "metric";
     UpdateDisplay(currentTempUnit);
-    userLocation(currentTempUnit);
   });
 
   const tempInF = document.getElementById("tempUnitF");
   tempInF.addEventListener("click", () => {
     currentTempUnit = "imperial";
     UpdateDisplay(currentTempUnit);
-    userLocation(currentTempUnit);
   });
 });
 
-async function UpdateDisplay(currUnit) {
+export async function UpdateDisplay(currUnit) {
   // console.log("Current temp", currUnit);
+  userLocation(currentTempUnit);
+
   const searchBarInput = document.getElementById("searchBarInput");
   let query = searchBarInput.value;
   query = query.toLowerCase();

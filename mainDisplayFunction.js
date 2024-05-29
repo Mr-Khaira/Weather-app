@@ -1,10 +1,53 @@
+/******************************************************************************
+ ***
+ * WEB422 – Assignment 1
+ * I declare that this assignment is my own work in accordance with Seneca Academic Policy.
+ * No part of this assignment has been copied manually or electronically from any other source
+ * (including web sites) or distributed to other students.
+ *
+ * Name: Harkaran Singh Khaira Student ID: 170321210 Date: 28/05/2024
+ *
+ *
+ ******************************************************************************
+ **/
 import {
   logoAndValue,
   countriesLogos,
   epochToLocalTime,
   addBr,
 } from "./utilities.js";
-import { getFlag } from "./allFetchFunctions.js";
+import { getFlag, userLocation } from "./allFetchFunctions.js";
+
+const previousPage = document.getElementById("prevPage");
+const nextPage = document.getElementById("nextPage");
+const allTheLocationsDisplayed = document.getElementById(
+  "allTheLocationsDisplayed"
+);
+const userLocationWeather = document.getElementById("userLocationWeather");
+
+let copiedListOfCities = [];
+let currentPage = 0;
+const itemsPerPage = 4;
+
+previousPage.addEventListener("click", async () => {
+  if (currentPage > 0) {
+    currentPage--;
+
+    await displayWeatherAllLocations(copiedListOfCities, true);
+
+    console.log("previous page");
+  }
+});
+
+nextPage.addEventListener("click", async () => {
+  if ((currentPage + 1) * itemsPerPage < copiedListOfCities.length) {
+    currentPage++;
+
+    await displayWeatherAllLocations(copiedListOfCities, true);
+
+    console.log("next page");
+  }
+});
 
 export async function displayWeatherAllLocations(
   listOfCities,
@@ -12,17 +55,18 @@ export async function displayWeatherAllLocations(
 ) {
   // Clearing previous data.
   allTheLocationsDisplayed.innerHTML = "";
+  copiedListOfCities = listOfCities;
 
-  const newDiv = document.createElement("div");
+  const start = currentPage * itemsPerPage;
+  const end = Math.min(start + itemsPerPage, listOfCities.length);
 
   let requiredlogos = countriesLogos(listOfCities);
   const theFlags = await getFlag(requiredlogos);
 
-  console.log("List of cities ", listOfCities);
-
-  listOfCities.forEach((element) => {
+  for (let i = start; i < end; i++) {
+    const element = listOfCities[i];
     const newDiv = document.createElement("div");
-    newDiv.className = "containor-fluid";
+    newDiv.style.width = "25rem";
     newDiv.style.borderRadius = "3px";
     newDiv.style.color = "white";
     newDiv.style.backgroundColor = "#0086F4";
@@ -30,7 +74,7 @@ export async function displayWeatherAllLocations(
 
     const cityFlag = theFlags.find((flag) => flag.code === element.sys.country);
 
-    //The top content of the containor
+    //The top content of the container
     const flagSpan = document.createElement("span");
     if (cityFlag) {
       flagSpan.innerHTML = logoAndValue("", cityFlag.flagUrl);
@@ -51,33 +95,31 @@ export async function displayWeatherAllLocations(
 
     addBr(newDiv);
 
-    // The middle content of the containor
-
+    // The middle content of the container
     const currTemp = document.createElement("span");
     currTemp.innerHTML = logoAndValue(
       element.main.temp,
-      "assets-icons/thermometer-low-svgrepo-com.svg"
+      "assets-icons/thermometer-748-svgrepo-com.svg"
     );
     newDiv.appendChild(currTemp);
 
     const maxTemp = document.createElement("span");
     maxTemp.innerHTML = logoAndValue(
       element.main.temp_max,
-      "assets-icons/thermometer-sun-svgrepo-com.svg"
+      "assets-icons/thermometer-up-740-svgrepo-com.svg"
     );
     newDiv.appendChild(maxTemp);
 
     const minTemp = document.createElement("span");
     minTemp.innerHTML = logoAndValue(
       element.main.temp_min,
-      "assets-icons/thermometer-snow-svgrepo-com.svg"
+      "assets-icons/thermometer-down-739-svgrepo-com.svg"
     );
     newDiv.appendChild(minTemp);
 
     addBr(newDiv);
 
-    // The bottom content of the containor
-
+    // The bottom content of the container
     const windS = document.createElement("span");
     windS.innerHTML = logoAndValue(
       element.wind.speed,
@@ -123,7 +165,5 @@ export async function displayWeatherAllLocations(
     } else {
       userLocationWeather.appendChild(newDiv);
     }
-
-    // This ele is created at the top of the file.
-  });
+  }
 }
