@@ -49,10 +49,7 @@ nextPage.addEventListener("click", async () => {
   }
 });
 
-export async function displayWeatherAllLocations(
-  listOfCities,
-  allLocations = true
-) {
+export async function displayWeatherAllLocations(listOfCities) {
   // Clearing previous data.
   allTheLocationsDisplayed.innerHTML = "";
   copiedListOfCities = listOfCities;
@@ -160,10 +157,6 @@ export async function displayWeatherAllLocations(
     newDiv.appendChild(SSet);
     addBr(newDiv);
 
-    if (allLocations) {
-      allTheLocationsDisplayed.appendChild(newDiv);
-    } else {
-      userLocationWeather.appendChild(newDiv);
-    }
+    allTheLocationsDisplayed.appendChild(newDiv);
   }
 }

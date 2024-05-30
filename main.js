@@ -132,7 +132,7 @@ async function weather(city, country = "", unit = "metric") {
 
     const weatherReportList = await WeatherReportOfCities(cityList, unit);
 
-    await displayWeatherAllLocations(weatherReportList, true);
+    await displayWeatherAllLocations(weatherReportList);
 
     // We have got the weather info of all the cities in weatherReportList variable.
     // Next step is to exteact the values to be displayed.

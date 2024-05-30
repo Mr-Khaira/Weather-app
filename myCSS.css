@@ -138,12 +138,12 @@ input#searchBarInput {
 }
 
 #searchBarInput:not(:focus):placeholder-shown {
-  color: transparent; /* Keep the text color transparent when input is not focused and empty */
-  background-image: url(/assets-icons/search-svgrepo-com1.svg); /* Show the background image when input is empty */
+  color: transparent;
+  background-image: url(/assets-icons/search-svgrepo-com1.svg);
 }
 
 #searchBarInput:not(:focus):not(:placeholder-shown) {
-  color: white; /* Show the text when input is not focused and has content */
+  color: white;
 }
 
 /* The hamburger button appears upon going under 1000px, and I wanted a gap b/w the units buttons when this query is true and remember these were set to be flex-row.*/
