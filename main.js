@@ -98,7 +98,7 @@ async function weather(city, country = "", unit = "metric") {
   console.log("The unit", unit);
   try {
     const theLocationsList = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${city},${country}&appid=e48dd7e2b32f4f907d573e78970b1e8e&limit=0&units=${unit}`
+      `https://api.openweathermap.org/geo/1.0/direct?q=${city},${country}&appid=e48dd7e2b32f4f907d573e78970b1e8e&limit=0&units=${unit}`
     );
     // limit 10 is the maximum allowed by the api.
 
