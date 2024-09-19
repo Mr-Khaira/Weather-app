@@ -154,7 +154,21 @@ input#searchBarInput {
   }
 
   #UserWeatherAndSearchBar {
-    flex-direction: column;
+    display: flex;
+    flex-direction: column !important;
     flex-shrink: 0;
+  }
+
+  #UserWeatherAndSearchBar {
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  #userLocationWeather {
+    margin: 30px;
+  }
+
+  #searchBar {
+    margin: 20px;
   }
 }
