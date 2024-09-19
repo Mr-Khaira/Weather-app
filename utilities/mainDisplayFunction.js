@@ -51,7 +51,7 @@ export async function displayWeatherAllLocations(listOfCities) {
   for (let i = start; i < end; i++) {
     const element = listOfCities[i];
     const newDiv = document.createElement("div");
-    newDiv.style.width = "25rem";
+    newDiv.style.width = "22rem";
     newDiv.style.borderRadius = "3px";
     newDiv.style.color = "white";
     newDiv.style.backgroundColor = "#0086F4";
