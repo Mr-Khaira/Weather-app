@@ -5,7 +5,7 @@ import {
   addBr,
 } from "./helperFunctions.js";
 
-const apiID = process.env.API_ID;
+const apiID = secrets.API_ID;
 
 export async function WeatherReportOfCities(cityList, unit) {
   let theList = cityList.map(async (item) => {
