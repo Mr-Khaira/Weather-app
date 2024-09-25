@@ -5,11 +5,13 @@ import {
   addBr,
 } from "./helperFunctions.js";
 
+const apiID = process.env.API_ID;
+
 export async function WeatherReportOfCities(cityList, unit) {
   let theList = cityList.map(async (item) => {
     try {
       const weather = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${item.lat}&lon=${item.lon}&appid=e48dd7e2b32f4f907d573e78970b1e8e&units=${unit}`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${item.lat}&lon=${item.lon}&appid=${apiID}&units=${unit}`
       );
 
       const resp = await weather.json();
